@@ -1,0 +1,7 @@
+A microservice responsible for updating inventory levels is occasionally "losing" updates during high-traffic flash sales. The logs show the Django view receives the update, but the final count in PostgreSQL is incorrect.
+ 
+An endpoint that filters through a list of 50,000 SKUs to find "Available to Promise" (ATP) stock has slowed down from 200ms to 5 seconds.
+ 
+A background worker (Celery/Python) processing shipping manifests starts consuming 2GB of RAM after 4 hours of operation and eventually gets killed by the OS (OOM Killer).
+ 
+A dashboard displaying "Recent Orders" is taking 10 seconds to load. You notice that for 100 orders, the application is making 101 separate database queries to PostgreSQL.

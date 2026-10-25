@@ -1,0 +1,43 @@
+Implement a rate limiter in Python using the Sliding Window Counter algorithm.
+What it must do
+Your RateLimiter class must decide whether a given request is ALLOWED or DENIED based on
+a maximum number of requests permitted in a rolling time window.
+
+
+Class Interface
+class RateLimiter:
+    def __init__(self, max_requests: int, window_seconds: int):
+        ...
+>>
+    def is_allowed(self, user_id: str) -> bool:
+        ...
+  • max_requests  — Maximum number of requests a single user can make within any
+    rolling window_seconds period.
+  • window_seconds  — The duration of the rolling window in seconds.
+  • is_allowed(user_id)  — Returns True if the request is permitted; False if the
+    user has exceeded the limit within the current rolling window.
+
+Constraints
+  • 1 ≤ max_requests ≤ 10,000
+  • 1 ≤ window_seconds ≤ 3600
+  • Multiple users are tracked independently (per user_id).
+  • The solution must use a sliding window — NOT a fixed window that resets
+    at a hard clock boundary.
+  • You may use Python's time.time() to get the current timestamp.
+  • No external libraries (no Redis, no database) — in-memory only.
+
+
+Example
+limiter = RateLimiter(max_requests=3, window_seconds=10)
+>>
+# User 'alice' makes 3 requests at t=0, t=1, t=2 — all allowed
+limiter.is_allowed('alice')   # t=0  → True   (1 request in window)
+limiter.is_allowed('alice')   # t=1  → True   (2 requests in window)
+limiter.is_allowed('alice')   # t=2  → True   (3 requests in window)
+limiter.is_allowed('alice')   # t=3  → False  (limit reached: 3 in last 10s)
+>>
+# At t=11, the request at t=0 has slid out of the 10-second window
+limiter.is_allowed('alice')   # t=11 → True   (only 2 requests remain in [1,11])
+>>
+# 'bob' has his own independent counter
+limiter.is_allowed('bob')     # t=3  → True   (bob's first request)

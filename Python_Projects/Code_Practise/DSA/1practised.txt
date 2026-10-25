@@ -1,0 +1,53 @@
+Arrays
+get partialar Key in nested Bict :
+two sum
+palindrome
+fibonacci
+Sliding window Fixed and variable
+Non-zero at. start and zero at end
+Non- repeated char
+remove duplicates without chaying Order
+Buy & sell using two bointer 
+three sum
+prefix sum
+Water Container problem
+Longest sequence
+Majority Problem Moores Voting
+Maximum subarray kadane algorithm
+check if array is sorted
+
+Important Problems:Linkedsin
+1. Longest substring with condition → Sliding Window: 3, 76, 424, 567, 904
+2. Fixed-size subarray/window → Sliding Window: 209, 643, 1456, 1343, 1423
+3. Sorted array + pair target → Two Pointers: 11, 15, 16, 167, 633
+4. Remove duplicates / in-place array movement → Two Pointers: 26, 27, 80, 283, 844
+5. Cycle in linked list → Fast/Slow Pointers: 141, 142, 202, 287
+6. Middle / nth node from end → Fast/Slow Pointers: 19, 876, 234, 143
+7. Search in sorted data → Binary Search: 704, 35, 34, 33, 153
+8. “Minimum possible maximum” → Binary Search on Answer: 410, 875, 1011, 1482
+9. “Can we do this in X?” → Binary Search on Answer: 774, 1283, 1552, 1891
+10. Count frequency / duplicates → Hashing: 1, 217, 242, 49, 347
+11. Longest consecutive / grouping values → HashSet: 128, 36, 380, 381
+12. Subarray sum equals K → Prefix Sum + HashMap: 560, 930, 974, 523
+13. Range sum query → Prefix Sum: 303, 304, 724, 238
+14. Multiple range updates → Difference Array: 370, 1094, 1109, 1893, 2381
+15. Next greater / next smaller → Monotonic Stack: 496, 503, 739, 901
+16. Largest rectangle / boundary expansion → Monotonic Stack: 84, 85, 907, 2104
+17. Sliding window maximum/minimum → Monotonic Deque: 239, 862, 1438, 1696
+18. Top K / kth largest → Heap: 215, 347, 692, 703, 973
+19. Merge K sorted things → Min Heap: 23, 373, 378, 632
+20. Overlapping ranges → Intervals: 56, 57, 252, 253, 435, 452
+21. Minimum rooms / platforms → Sorting + Heap: 253, 1094, 2402, 1942
+22. Jump / choose best local move → Greedy: 45, 55, 134, 763, 621
+23. Tree height / diameter / path sum → Tree DFS: 104, 112, 113, 543, 124
+24. Level order / nearest node level → Tree BFS: 102, 103, 199, 515, 637
+25. Validate / search / kth in BST → Inorder / BST: 98, 230, 235, 450, 700
+26. Islands / connected areas → Graph DFS/BFS: 200, 695, 733, 994, 1254
+27. Dependency order → Topological Sort: 207, 210, 802, 1462, 2115
+28. Merging groups / components → Union Find: 547, 684, 1319, 1579, 990
+29. Generate all valid options → Backtracking: 46, 47, 77, 78, 90, 39
+30. Max/min ways over choices → DP: 70, 198, 213, 322, 300, 114
+
+https://www.linkedin.com/posts/sahil-hans_leetcode-striver-sde-sheet-ugcPost-7485172946857091072-ajpU/?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAACJzvbUB47XwpdemEmwPTH6pmYyO6iZAFZI
+
+

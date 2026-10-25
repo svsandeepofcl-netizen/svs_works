@@ -1,0 +1,17 @@
+A cloud provider monitors CPU frequencies across multiple virtual machines (VMs).To reduce energy consumption, the provider can enforce a maximum frequency cap h. Any VM running above h is throttled down to exactly h. The reduced frequency contributes to total energy savings. VMs already running at or below h remain unchanged. Given the frequencies of all VMs and a required minimum energy saving M, determine the maximum possible frequency cap h such that the total energy savings is at least M Input 
+
+N M 
+
+4 7 
+
+[20 15 10 17] 
+
+Output: 15
+
+Input 
+
+5 20 
+
+[4 42 40 26 46] 
+
+Output: 36
