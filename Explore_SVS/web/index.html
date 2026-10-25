@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SysInfo | Live System Dashboard</title>
+  <meta name="description" content="Modern, live system metrics and hardware inspection dashboard.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Header -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>SysInfo <span class="badge-tag">LIVE</span></h1>
+          <p class="subtitle">Hardware &amp; Resource Metrics</p>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <div class="live-indicator">
+          <span class="pulse-dot"></span>
+          <span id="connection-status">Connecting...</span>
+        </div>
+
+        <div class="refresh-group">
+          <label for="interval-select" class="control-label">Refresh:</label>
+          <select id="interval-select" class="custom-select">
+            <option value="1000">1s</option>
+            <option value="2000" selected>2s</option>
+            <option value="5000">5s</option>
+            <option value="10000">10s</option>
+            <option value="0">Manual</option>
+          </select>
+          <button id="btn-refresh" class="btn-primary" title="Refresh Now">
+            <svg class="spin-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span>Refresh</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top Highlight Stat Cards -->
+    <section class="quick-stats-grid">
+      <!-- CPU Quick Card -->
+      <div class="stat-card" id="card-cpu-quick">
+        <div class="stat-header">
+          <span class="stat-title">CPU Utilization</span>
+          <span class="stat-icon cpu-color">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <rect x="9" y="9" width="6" height="6"/>
+              <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+            </svg>
+          </span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="quick-cpu-val">0%</div>
+          <div class="stat-subtext" id="quick-cpu-sub">Detecting cores...</div>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill cpu-bg" id="quick-cpu-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- RAM Quick Card -->
+      <div class="stat-card" id="card-ram-quick">
+        <div class="stat-header">
+          <span class="stat-title">RAM Usage</span>
+          <span class="stat-icon ram-color">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 19v-3M10 19v-3M14 19v-3M18 19v-3M6 8V5M10 8V5M14 8V5M18 8V5"/>
+              <rect x="2" y="8" width="20" height="8" rx="2"/>
+            </svg>
+          </span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="quick-ram-val">0%</div>
+          <div class="stat-subtext" id="quick-ram-sub">Calculating memory...</div>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill ram-bg" id="quick-ram-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Storage Quick Card -->
+      <div class="stat-card" id="card-disk-quick">
+        <div class="stat-header">
+          <span class="stat-title">Primary Storage</span>
+          <span class="stat-icon disk-color">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+            </svg>
+          </span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="quick-disk-val">0%</div>
+          <div class="stat-subtext" id="quick-disk-sub">Scanning drives...</div>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill disk-bg" id="quick-disk-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Network / Power Quick Card -->
+      <div class="stat-card" id="card-net-quick">
+        <div class="stat-header">
+          <span class="stat-title">Network &amp; Power</span>
+          <span class="stat-icon net-color">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+              <line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+          </span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" id="quick-net-val">--</div>
+          <div class="stat-subtext" id="quick-net-sub">Analyzing connectivity...</div>
+        </div>
+        <div class="tags-row" id="quick-tags">
+          <span class="pill-tag" id="quick-battery-tag">Power: Checking...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Grid Content -->
+    <main class="dashboard-main-grid">
+      <!-- Left Column -->
+      <div class="grid-column">
+        
+        <!-- Operating System & Machine Info Card -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <h2>System &amp; Hardware Overview</h2>
+            </div>
+            <span class="badge-outline" id="os-platform-badge">Windows</span>
+          </div>
+          <div class="panel-content">
+            <div class="info-table">
+              <div class="info-row">
+                <span class="label">Operating System:</span>
+                <span class="value font-highlight" id="info-os-name">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Architecture:</span>
+                <span class="value" id="info-arch">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Computer Hostname:</span>
+                <span class="value font-mono" id="info-hostname">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Active User:</span>
+                <span class="value font-mono" id="info-user">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">System Boot Time:</span>
+                <span class="value" id="info-boot-time">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">System Uptime:</span>
+                <span class="value uptime-pill" id="info-uptime">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Processor Details & Core Loads -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/>
+                <path d="M6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/>
+              </svg>
+              <h2>Processor (CPU) Real-Time Load</h2>
+            </div>
+            <span class="badge-frequency" id="cpu-freq-badge">-- GHz</span>
+          </div>
+          <div class="panel-content">
+            <div class="cpu-model-banner" id="cpu-brand-name">
+              Detecting processor model...
+            </div>
+            
+            <div class="cpu-meta-stats">
+              <div class="mini-meta">
+                <span class="meta-label">Physical Cores</span>
+                <span class="meta-value" id="cpu-physical-cores">--</span>
+              </div>
+              <div class="mini-meta">
+                <span class="meta-label">Logical Threads</span>
+                <span class="meta-value" id="cpu-logical-cores">--</span>
+              </div>
+              <div class="mini-meta">
+                <span class="meta-label">Base / Max Speed</span>
+                <span class="meta-value" id="cpu-max-freq">--</span>
+              </div>
+            </div>
+
+            <!-- Overall Bar -->
+            <div class="gauge-section">
+              <div class="gauge-header">
+                <span>Overall Processor Utilization</span>
+                <span class="gauge-pct" id="cpu-overall-pct">0%</span>
+              </div>
+              <div class="progress-bar-bg large-bar">
+                <div class="progress-bar-fill cpu-gradient" id="cpu-overall-bar" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Per-Core Grid -->
+            <div class="cores-container">
+              <h3 class="subsection-title">Per-Core Thread Utilization</h3>
+              <div class="cores-grid" id="cores-grid">
+                <!-- Dynamically populated core meters -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Storage & Disks -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="12" x2="2" y2="12"></line>
+                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                <line x1="6" y1="16" x2="6.01" y2="16"></line>
+                <line x1="10" y1="16" x2="10.01" y2="16"></line>
+              </svg>
+              <h2>Disks &amp; Mounted Partitions</h2>
+            </div>
+            <div class="io-stat-pill" id="disk-io-pill">
+              Read: -- | Write: --
+            </div>
+          </div>
+          <div class="panel-content">
+            <div class="partitions-list" id="partitions-container">
+              <!-- Dynamically populated partitions -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="grid-column">
+
+        <!-- Memory & Virtual Swap -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 2h20v20H2z"/>
+                <path d="M7 2v20M17 2v20M2 12h20M2 7h20M2 17h20"/>
+              </svg>
+              <h2>Memory &amp; Virtual RAM</h2>
+            </div>
+          </div>
+          <div class="panel-content">
+            <!-- Physical RAM -->
+            <div class="memory-block">
+              <div class="memory-meta">
+                <span class="mem-title">Physical RAM</span>
+                <span class="mem-usage font-mono" id="ram-usage-text">-- GB / -- GB</span>
+              </div>
+              <div class="progress-bar-bg medium-bar">
+                <div class="progress-bar-fill ram-gradient" id="ram-progress-bar" style="width: 0%"></div>
+              </div>
+              <div class="memory-subinfo">
+                <span>Free: <strong id="ram-free-val">-- GB</strong></span>
+                <span>Used: <strong id="ram-pct-val">0%</strong></span>
+              </div>
+            </div>
+
+            <!-- Swap / Pagefile -->
+            <div class="memory-block mt-4" id="swap-block">
+              <div class="memory-meta">
+                <span class="mem-title" id="swap-title">Virtual Pagefile / Swap</span>
+                <span class="mem-usage font-mono" id="swap-usage-text">-- MB / -- GB</span>
+              </div>
+              <div class="progress-bar-bg medium-bar">
+                <div class="progress-bar-fill swap-gradient" id="swap-progress-bar" style="width: 0%"></div>
+              </div>
+              <div class="memory-subinfo">
+                <span>Available: <strong id="swap-free-val">--</strong></span>
+                <span>Committed: <strong id="swap-pct-val">0%</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network Interfaces & Traffic -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <h2>Network Interfaces &amp; Traffic</h2>
+            </div>
+            <span class="badge-ip" id="badge-primary-ip">IP: Detecting...</span>
+          </div>
+          <div class="panel-content">
+            <div class="network-totals-bar">
+              <div class="net-metric">
+                <span class="net-label">↑ Total Sent</span>
+                <span class="net-val font-mono" id="net-total-sent">-- MB</span>
+              </div>
+              <div class="net-metric">
+                <span class="net-label">↓ Total Received</span>
+                <span class="net-val font-mono" id="net-total-recv">-- GB</span>
+              </div>
+            </div>
+
+            <div class="interfaces-list" id="interfaces-container">
+              <!-- Dynamically populated network cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Battery / Power & Runtime Info -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+              <h2>Power &amp; Runtime Environment</h2>
+            </div>
+          </div>
+          <div class="panel-content">
+            <!-- Battery condition -->
+            <div class="battery-section" id="battery-container">
+              <div class="battery-header">
+                <div class="battery-icon-label">
+                  <svg id="battery-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="6" width="18" height="12" rx="2"/>
+                    <line x1="23" y1="10" x2="23" y2="14"/>
+                  </svg>
+                  <span id="battery-status-text">Battery Status</span>
+                </div>
+                <span class="battery-pct-label" id="battery-pct">--%</span>
+              </div>
+              <div class="progress-bar-bg small-bar">
+                <div class="progress-bar-fill battery-bg" id="battery-bar" style="width: 0%"></div>
+              </div>
+              <div class="battery-meta-row">
+                <span id="battery-source">Source: Checking...</span>
+                <span id="battery-remaining">Time: Checking...</span>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Python runtime details -->
+            <div class="info-table">
+              <div class="info-row">
+                <span class="label">Python Version:</span>
+                <span class="value font-mono" id="py-version">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Active OS Processes:</span>
+                <span class="value font-mono highlight-blue" id="py-processes">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Python Binary:</span>
+                <span class="value font-mono truncate-text" id="py-executable" title="">--</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Project Root:</span>
+                <span class="value font-mono truncate-text" id="py-workdir" title="">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+      <div>SysInfo Web Dashboard • Running on <span class="font-mono">localhost</span></div>
+      <div id="last-updated-text">Last update: Waiting for first payload...</div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

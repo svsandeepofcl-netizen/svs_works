@@ -5,6 +5,7 @@ Run this script to retrieve and display system metrics and hardware details.
 
 Usage:
     python start.py                 # Displays the visual terminal dashboard
+    python start.py --web           # Launches modern live web dashboard in browser
     python start.py --json          # Outputs structured JSON to terminal
     python start.py --save report   # Saves report to a file (.txt or .json)
     python start.py --no-color      # Disables ANSI color output
@@ -58,11 +59,32 @@ def parse_arguments() -> argparse.Namespace:
         default=0.3,
         help="CPU sampling interval in seconds (default: 0.3)",
     )
+    parser.add_argument(
+        "--web",
+        action="store_true",
+        help="Launch the interactive web UI dashboard on localhost",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=5000,
+        help="Port for the web UI server (default: 5000)",
+    )
+    parser.add_argument(
+        "--no-browser",
+        action="store_true",
+        help="Do not automatically open default browser when starting web UI",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_arguments()
+
+    if args.web:
+        from web_server import run_server
+        run_server(port=args.port, open_browser=not args.no_browser)
+        return
 
     # Determine color support
     use_color = not args.no_color and sys.stdout.isatty()

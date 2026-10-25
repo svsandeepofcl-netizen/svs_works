@@ -8,11 +8,23 @@ When you run `start.py`, it inspects your system and renders an informative, vis
 
 ## 🚀 Quick Start
 
+### 1. Visual Terminal Dashboard
 Run the entrypoint script directly from your terminal:
 
 ```bash
 python start.py
 ```
+
+### 2. Live Web Dashboard (Localhost)
+Launch the modern glassmorphism web UI in your default browser at `http://localhost:5000`:
+
+```bash
+python start.py --web
+# or
+python web_server.py
+```
+
+Features real-time polling (1s, 2s, 5s), per-core thread gauges, storage meters, network traffic, and battery metrics.
 
 ---
 
