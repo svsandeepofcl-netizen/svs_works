@@ -1,0 +1,45 @@
+[2026-10-31 08:04:41] [INFO] [Test]: Logging test OK!
+[2026-10-31 08:04:54] [INFO] [Main]: Initializing Naukri Profile Updater...
+[2026-10-31 08:04:54] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:04:54] [INFO] [NaukriUpdater]: Starting Naukri Profile Automation Run
+[2026-10-31 08:04:54] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:04:54] [INFO] [NaukriUpdater]: Loaded credentials for user: svsandeepofcl@gmail.com
+[2026-10-31 08:06:08] [INFO] [Main]: Initializing Naukri Profile Updater...
+[2026-10-31 08:06:08] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:06:08] [INFO] [NaukriUpdater]: Starting Naukri Profile Automation Run
+[2026-10-31 08:06:08] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:06:08] [INFO] [NaukriUpdater]: Loaded credentials for user: svsandeepofcl@gmail.com
+[2026-10-31 08:07:08] [INFO] [Main]: Initializing Naukri Profile Updater...
+[2026-10-31 08:07:08] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:07:08] [INFO] [NaukriUpdater]: Starting Naukri Profile Automation Run
+[2026-10-31 08:07:08] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:07:08] [INFO] [NaukriUpdater]: Loaded credentials for user: svsandeepofcl@gmail.com
+[2026-10-31 08:07:13] [INFO] [NaukriUpdater]: Launching browser (headless=True)...
+[2026-10-31 08:07:13] [INFO] [NaukriUpdater]: Using installed Google Chrome browser channel.
+[2026-10-31 08:07:14] [INFO] [NaukriUpdater]: Playwright-stealth applied successfully.
+[2026-10-31 08:07:14] [INFO] [NaukriUpdater]: Navigating to login page: https://www.naukri.com/nlogin/login
+[2026-10-31 08:07:17] [INFO] [NaukriUpdater]: Page loaded: 'Jobseeker's Login: Search the Best Jobs available in India & Abroad - Naukri.com' (URL: https://www.naukri.com/nlogin/login)
+[2026-10-31 08:07:18] [INFO] [NaukriUpdater]: Found username input field using selector: input#usernameField
+[2026-10-31 08:07:19] [INFO] [NaukriUpdater]: Found password input field using selector: input#passwordField
+[2026-10-31 08:07:20] [INFO] [NaukriUpdater]: Found submit button using selector: button[type='submit']
+[2026-10-31 08:07:20] [INFO] [NaukriUpdater]: Submitting login form...
+[2026-10-31 08:07:26] [INFO] [NaukriUpdater]: Post-login URL: https://www.naukri.com/mnjuser/homepage
+[2026-10-31 08:07:26] [INFO] [NaukriUpdater]: Login successful!
+[2026-10-31 08:07:26] [INFO] [NaukriUpdater]: Navigating to profile page: https://www.naukri.com/mnjuser/profile
+[2026-10-31 08:07:30] [INFO] [NaukriUpdater]: Profile Page loaded: 'Profile | Mynaukri' (URL: https://www.naukri.com/mnjuser/profile)
+[2026-10-31 08:07:30] [INFO] [NaukriUpdater]: Searching for Resume Headline section...
+[2026-10-31 08:07:30] [INFO] [NaukriUpdater]: Found Resume Headline edit button: div.resumeHeadline span.edit
+[2026-10-31 08:07:30] [INFO] [NaukriUpdater]: Clicking Resume Headline edit button...
+[2026-10-31 08:07:33] [INFO] [NaukriUpdater]: Found headline textarea: textarea[placeholder*='headline' i]
+[2026-10-31 08:07:33] [INFO] [NaukriUpdater]: Current headline length: 186 characters.
+[2026-10-31 08:07:33] [INFO] [NaukriUpdater]: Updating headline with modified text (toggled dot indicator)...
+[2026-10-31 08:07:34] [INFO] [NaukriUpdater]: Found headline Save button: div.action button:has-text('Save')
+[2026-10-31 08:07:34] [INFO] [NaukriUpdater]: Clicked Save button on Resume Headline.
+[2026-10-31 08:07:39] [INFO] [NaukriUpdater]: No explicit toast detected; waiting for state to settle.
+[2026-10-31 08:07:42] [INFO] [NaukriUpdater]: Successfully updated Resume Headline!
+[2026-10-31 08:07:45] [INFO] [NaukriUpdater]: Profile status text: Profile last updated - Today
+[2026-10-31 08:07:45] [INFO] [NaukriUpdater]: Naukri profile update process completed with SUCCESS.
+[2026-10-31 08:07:50] [INFO] [NaukriUpdater]: Browser closed.
+[2026-10-31 08:07:50] [INFO] [NaukriUpdater]: Run finished at 2026-10-31 08:07:50. Status: True
+[2026-10-31 08:07:50] [INFO] [NaukriUpdater]: ============================================================
+[2026-10-31 08:07:50] [INFO] [Main]: SUCCESS: Naukri profile updated successfully!

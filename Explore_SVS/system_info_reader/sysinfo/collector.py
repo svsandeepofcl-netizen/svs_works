@@ -18,7 +18,13 @@ try:
 except ImportError:
     HAS_PSUTIL = False
 
-from .utils import format_bytes, format_duration, format_frequency
+try:
+    from .utils import format_bytes, format_duration, format_frequency
+except (ImportError, ValueError):
+    try:
+        from sysinfo.utils import format_bytes, format_duration, format_frequency
+    except (ImportError, ValueError):
+        from utils import format_bytes, format_duration, format_frequency
 
 
 def _get_cpu_brand_name() -> str:
@@ -449,3 +455,9 @@ def collect_all_system_info() -> Dict[str, Any]:
         "environment": get_environment_info(),
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
+
+
+if __name__ == "__main__":
+    import json
+    print(json.dumps(collect_all_system_info(), indent=2))
+

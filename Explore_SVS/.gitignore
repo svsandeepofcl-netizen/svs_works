@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+new_venv/
+new_venv_linux/
+.venv/
+env/
+venv/
+ENV/
+
+# Output reports
+*.report.json
+*.report.txt

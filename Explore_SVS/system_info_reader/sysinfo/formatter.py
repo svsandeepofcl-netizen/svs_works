@@ -8,7 +8,13 @@ import os
 import sys
 from typing import Any, Dict
 
-from .utils import make_progress_bar
+try:
+    from .utils import make_progress_bar
+except (ImportError, ValueError):
+    try:
+        from sysinfo.utils import make_progress_bar
+    except (ImportError, ValueError):
+        from utils import make_progress_bar
 
 
 class Style:

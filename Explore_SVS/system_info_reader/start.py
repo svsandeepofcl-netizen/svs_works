@@ -28,6 +28,11 @@ if hasattr(sys.stderr, "reconfigure"):
     except Exception:
         pass
 
+# Ensure project directory is in sys.path
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+if PROJECT_DIR not in sys.path:
+    sys.path.insert(0, PROJECT_DIR)
+
 from sysinfo.collector import collect_all_system_info
 from sysinfo.formatter import format_dashboard
 

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jungle Viper - Realistic Snake Hunt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="ambient-glow"></div>
+    <div id="particles-container"></div>
+
+    <div class="game-wrapper">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="title-group">
+                <div class="badge-row">
+                    <span class="badge">🌿 AMAZON RAINFOREST</span>
+                    <div class="hunter-pill">
+                        <span class="hunter-tag">HUNTER:</span>
+                        <strong id="active-hunter-display">Explorer</strong>
+                        <button id="header-switch-btn" class="btn-micro" title="Switch Hunter">Change</button>
+                    </div>
+                </div>
+                <h1>JUNGLE VIPER</h1>
+                <p class="subtitle">Hunt tropical fruits • Grow longer • Don't bite your tail</p>
+            </div>
+            
+            <div class="stats-ribbon">
+                <div class="stat-card">
+                    <span class="stat-label">CURRENT SCORE</span>
+                    <span id="current-score" class="stat-value">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">LENGTH</span>
+                    <span id="snake-length" class="stat-value">3</span>
+                </div>
+                <div class="stat-card highlight">
+                    <span class="stat-label">HIGH SCORE</span>
+                    <span id="top-score-badge" class="stat-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Game Container -->
+        <main class="main-layout">
+            <!-- Left Side / Leaderboard -->
+            <aside class="sidebar leaderboard-card">
+                <div class="card-header">
+                    <span class="icon">🏆</span>
+                    <h2>TOP 5 HUNTERS</h2>
+                </div>
+                <p class="card-desc">Hall of fame recorded across all expeditions</p>
+                
+                <ol id="top-scores-list" class="leaderboard-list">
+                    <!-- Populated dynamically -->
+                </ol>
+
+                <div class="controls-guide">
+                    <h3>🎮 CONTROLS</h3>
+                    <div class="keys-grid">
+                        <div class="key-item"><kbd>▲</kbd><span>Up</span></div>
+                        <div class="key-item"><kbd>▼</kbd><span>Down</span></div>
+                        <div class="key-item"><kbd>◄</kbd><span>Left</span></div>
+                        <div class="key-item"><kbd>►</kbd><span>Right</span></div>
+                    </div>
+                    <div class="extra-keys">
+                        <small><kbd>Space</kbd> Pause • <kbd>R</kbd> Restart • <kbd>M</kbd> Mute</small>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Canvas Area -->
+            <section class="canvas-section">
+                <div class="canvas-frame">
+                    <canvas id="game-canvas" width="640" height="640"></canvas>
+                    
+                    <!-- Overlay Screens -->
+                    <!-- 1. Start / Welcome Overlay -->
+                    <div id="start-overlay" class="game-overlay active">
+                        <div class="overlay-box">
+                            <div class="overlay-icon">🐍</div>
+                            <h2 id="start-modal-title">READY TO HUNT?</h2>
+                            <p id="start-modal-subtitle">Guide the emerald viper through the dense jungle floor. Gobble tropical berries to grow in size!</p>
+                            
+                            <!-- Name input section -->
+                            <div id="name-prompt-section" class="name-entry-box">
+                                <label for="hunter-name-input">Enter your Hunter Name:</label>
+                                <input type="text" id="hunter-name-input" maxlength="15" placeholder="Your Name (e.g. Sandeep)" autocomplete="off">
+                            </div>
+
+                            <!-- Returning player banner -->
+                            <div id="returning-player-section" class="returning-box hidden">
+                                <span class="returning-greeting">Welcome back,</span>
+                                <strong id="returning-hunter-name" class="returning-name">Hunter</strong>
+                            </div>
+
+                            <div class="overlay-rules">
+                                <span>⚠️ Biting your own body is fatal</span>
+                                <span>⚠️ Crashing into thick border foliage will end the run</span>
+                            </div>
+
+                            <div class="overlay-buttons-stack">
+                                <button id="start-btn" class="btn btn-primary">START EXPEDITION (ENTER)</button>
+                                <button id="switch-user-btn" class="btn btn-secondary hidden">NEW USER / CHANGE NAME</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Game Over Overlay -->
+                    <div id="game-over-overlay" class="game-overlay hidden">
+                        <div class="overlay-box danger">
+                            <div class="overlay-icon skull">💀</div>
+                            <h2 class="death-title">SNAKE PERISHED!</h2>
+                            <p id="death-reason" class="death-reason">You bit your own tail!</p>
+                            
+                            <div class="final-score-display">
+                                <span id="game-over-hunter-label">Hunter Score</span>
+                                <strong id="final-score-value">0</strong>
+                            </div>
+
+                            <!-- High score announcement -->
+                            <div id="top5-badge-announcement" class="top5-banner hidden">
+                                <span class="sparkle">🏆 RECORDED IN TOP 5 SCORES! 🏆</span>
+                                <p id="top5-hunter-ack" class="ack-text">Well done, Hunter!</p>
+                            </div>
+
+                            <!-- Actions: Continue as current user OR switch to new user -->
+                            <div class="game-over-choices">
+                                <button id="continue-user-btn" class="btn btn-primary">CONTINUE AS HUNTER (R)</button>
+                                <button id="game-over-new-user-btn" class="btn btn-secondary">👤 NEW USER / SWITCH</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Name Change Modal Overlay -->
+                    <div id="name-modal-overlay" class="game-overlay hidden">
+                        <div class="overlay-box">
+                            <div class="overlay-icon">👤</div>
+                            <h2>CHANGE HUNTER</h2>
+                            <p>Enter the name of the new hunter taking over the expedition:</p>
+                            <input type="text" id="modal-name-input" maxlength="15" placeholder="Enter new Hunter Name..." autofocus>
+                            <div class="modal-buttons-row">
+                                <button id="modal-save-name-btn" class="btn btn-primary">SAVE & PLAY</button>
+                                <button id="modal-cancel-btn" class="btn btn-secondary">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Pause Overlay -->
+                    <div id="pause-overlay" class="game-overlay hidden">
+                        <div class="overlay-box">
+                            <div class="overlay-icon">⏸️</div>
+                            <h2>EXPEDITION PAUSED</h2>
+                            <p>Catch your breath in the jungle canopy.</p>
+                            <button id="resume-btn" class="btn btn-primary">RESUME (SPACE)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer controls bar -->
+                <div class="game-footer-bar">
+                    <div class="speed-selector">
+                        <label for="speed-select">Viper Speed:</label>
+                        <select id="speed-select">
+                            <option value="160">Gentle Python (160ms - Relaxed)</option>
+                            <option value="135" selected>Jungle Hunter (135ms - Balanced)</option>
+                            <option value="105">Emerald Viper (105ms - Fast)</option>
+                            <option value="75">Black Mamba (75ms - Insane)</option>
+                        </select>
+                    </div>
+
+                    <div class="audio-toggle">
+                        <button id="mute-btn" class="btn btn-icon" title="Toggle Sound (M)">
+                            <span id="mute-icon">🔊</span> Sound ON
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

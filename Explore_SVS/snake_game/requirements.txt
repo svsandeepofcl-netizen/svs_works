@@ -1,0 +1,3 @@
+# Snake Game dependencies (uses Python standard library by default)
+# Optional enhancements:
+# pygame>=2.5.0
